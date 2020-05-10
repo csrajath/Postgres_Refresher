@@ -9,13 +9,18 @@ I started refershing Postgres skills using [this](https://www.youtube.com/playli
 * SQL is the programming language used to interact with databases.
 * Postgres is the engine that powers that interactions.
 * PostgreSQL is a Relational Database Management System used to store data in structured format.
-    * A RDBS is consists of one or more tables related to each other.
+    * A RDBS consists of one or more tables related to each other.
         * Each table is formed of rows and columns structure.
             * A column is an *attribute* that describes a specific item in the database.
             * Each row contains values for the attributes.
             * A field in a database is each cell in the database. Example: If a database as 10 columns and 10 rows; then it as 100 fields
 * Actually.... PostgreSQL is an object relational database management system. Meaning, each table and its contents can be converted to an object oriented model design to be programatically accessed via classes, methods and functions. 
-
+* Two most important components for interacting with a database are:
+    * Database Server
+        * This is the machine hosting the database.
+    * Database Client
+        * This is the application used to view database related items, like: schema, tables, columns and other configs.
+        * Such Clients are: DataGrip, Postico, pgAdmin and one call use psql Shell too.
 ### Resources
 * Some handy resources to understanding PostgreSQL
      * Book - [Mastering PostgreSQL 12: Advanced Techniques to Build and Administer Scalable and Reliable PostgreSQL Database Applications, 3rd Edition](https://www.amazon.com/Mastering-PostgreSQL-techniques-administer-applications-ebook/dp/B0822GCCDT)
