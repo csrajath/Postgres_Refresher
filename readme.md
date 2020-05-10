@@ -20,15 +20,22 @@ I started refershing Postgres skills using [this](https://www.youtube.com/playli
         * This is the machine hosting the database.
     * Database Client
         * This is the application used to view database related items, like: schema, tables, columns and other configs.
-        * Such Clients are: DataGrip, Postico, pgAdmin and one call use psql Shell too.
-# Understanding Commands
+        * Such Clients are: DataGrip, Postico, pgAdmin and one can use psql Shell too.
+### Understanding Commands
+#### Basic Commands
+* NOTE: ***PostgreSQL is not case sensitive***
+* *\q* to quit from postgres terminal
+* *\l* to list the databases
+
 1. Connecting to the DB using command Prompt
     * Add the Postgres *bin* and *lib* to *PATH*
     * Open *cmd* or *terminal* and type this command for connection:
         `
         psql -U username
         `
-
+2. Creating a Database
+    * ` create database *db_name*
+    `
 ### Resources
 * Some handy resources to understanding PostgreSQL
      * Book - [Mastering PostgreSQL 12: Advanced Techniques to Build and Administer Scalable and Reliable PostgreSQL Database Applications, 3rd Edition](https://www.amazon.com/Mastering-PostgreSQL-techniques-administer-applications-ebook/dp/B0822GCCDT)
