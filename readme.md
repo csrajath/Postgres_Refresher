@@ -34,11 +34,24 @@ I started refershing Postgres skills using [this](https://www.youtube.com/playli
         psql -U username
         `
 2. Creating a Database
-    * ` create database *db_name*
+    * ` create database db_name;
     `
+    * The most important this is the *semi-colon (;)* at the end of the command.
+1. Deleting a database
+    * In database language, this is called *droppin* a database.
+    * The postgres equivalent command for it is `drop database db_name;`
+    * ***NOTE:*** 
+        * One cannot drop the database when connected to it
+        * One cannot drop the database during a query transaction
+1. Connecting to a database
+
 ### Resources
 * Some handy resources to understanding PostgreSQL
      * Book - [Mastering PostgreSQL 12: Advanced Techniques to Build and Administer Scalable and Reliable PostgreSQL Database Applications, 3rd Edition](https://www.amazon.com/Mastering-PostgreSQL-techniques-administer-applications-ebook/dp/B0822GCCDT)
      * Udemy - [PostgreSQL Project](https://www.udemy.com/course/create-a-web-application-with-python-django-postgresql/)
      * Blogs - [Data Engineering with PostgreSQL](https://towardsdatascience.com/data-engineering-with-python-django-and-postgresql-99409492769)
      * Practice - [Hands-On PostgreSQL](https://pgexercises.com/questions/basic/)
+        * DataCamp - There are three PostgreSQL courses on datacamp which provides explaination with instant hands-on experience
+            * https://www.datacamp.com/courses/creating-postgresql-databases
+            * https://www.datacamp.com/courses/postgresql-functions-for-manipulating-data
+            * https://www.datacamp.com/courses/improving-query-performance-in-postgresql
