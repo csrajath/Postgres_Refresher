@@ -1,7 +1,9 @@
 <--TODO-->
 https://www.linkedin.com/learning/sql-essential-training-2018
-priamry key, foreign key, ERs, normalization, DML, DDL, joins
+pgplsql, nested queries, priamry key, foreign key, ERs, normalization, DML, DDL, joins
 I started refershing Postgres skills using [this](https://www.youtube.com/playlist?list=PLwvrYc43l1MxAEOI_KwGe8l42uJxMoKeS) youtube playlist.
+
+I believe in learning through excercies. Thus at last there is also a section for excerise questions.
 ### Understanding Database
 * Database is a place to store, manipulate and retrive data.
 * Example of data storage: Amazon.com, all user related and products related data is stored in specified structure on a database and is hosted on a server.
@@ -28,6 +30,7 @@ I started refershing Postgres skills using [this](https://www.youtube.com/playli
 * *\q* to quit from postgres terminal
 * *\l* to list the databases
 * *psql --help* list the most used options
+* *\i* to execute a query from a file
 
 1. Connecting to the DB using command Prompt
     * Add the Postgres *bin* and *lib* to *PATH*
@@ -56,14 +59,53 @@ I started refershing Postgres skills using [this](https://www.youtube.com/playli
         column_name column_type(contraints) constraints1
     );
     `
+    * Creating a column in a table without constraint value for it is a bad practice
     * *contraints1* is usually features like `NOT NULL` and `Serial`....etc
-    1. Each table can be inter-related to each other using *primary* and *secondary_keys*
+    * If a column is tagged with `NOT NULL` contraint it means it cannot be empty
+    * If a column is tagged with `serial` constraint it means it automatically calculates the series of values
+        * Whenever something auto incrementing is needed, it is best to use the `bigserial` constraint
+    * Each table can be inter-related to each other using *primary* and *secondary_keys*
 1. Viewing Tables
+* `\d table_name` gives details of a table.
 * `\dt` list tables of the public schema
 * `\dt <schema-name>.*` list tables of certain schema, e.g., \dt public.*
 * `\dt *.*` list tables of all schemas
 1. Deleting Tables
 `drop table table_name;`
+#### INSERTING AND QUERYING
+1. Inserting Values
+* Syntax: `inser into table_name () values ();`
+* While inserting values to a table, it is important to follow same order as the columns input onto the *INTO* keyword.
+    1. This is the correct format:
+        `insert into table_name(fname,lname,age) values ('john','doe',12);`
+    1. This is the wrong formar:
+        `insert into table_name(fname,lname,age) values (12, 'doe', 'john');`
+* One can also insert values from a file using the *\i* command.
+1. Retrieving Values
+* *SELECT* keyword is used to retrive records.
+* Syntax: `select column_name from table_name;`
+    * the column name can be accoumpanied by other keywords, like:
+        `select count(*) from table_name;`
+1. Sorting Values
+
+
+
+#### Date and TimeStamps
+* Whenever a date is entered in a psql command, it is important to note that the default format is *yy-mm-dd*
+### Excercises
+#### Database
+1. Create, delete and view databases
+#### Tables
+1. Create a two tables and link each other appropriately 
+2. Create an employee table with DOB column defaulting to date column_type
+3. Create a table with auto incrementing serial values
+1. Insert values into above created tables
+1. Insert values into from a file
+1. Retrive unique values only   
+### Postgres Interview Questions
+
+### Project
+* After some useful learning, I decided to do a mini database building project. This is WiP.
 ### Resources
 * Some handy resources to understanding PostgreSQL
      * Book - [Mastering PostgreSQL 12: Advanced Techniques to Build and Administer Scalable and Reliable PostgreSQL Database Applications, 3rd Edition](https://www.amazon.com/Mastering-PostgreSQL-techniques-administer-applications-ebook/dp/B0822GCCDT)
@@ -74,5 +116,3 @@ I started refershing Postgres skills using [this](https://www.youtube.com/playli
             * https://www.datacamp.com/courses/creating-postgresql-databases
             * https://www.datacamp.com/courses/postgresql-functions-for-manipulating-data
             * https://www.datacamp.com/courses/improving-query-performance-in-postgresql
-### Project
-* After some useful learning, I decided to do a mini database building project. This is WiP.
