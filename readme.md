@@ -132,6 +132,42 @@ Create a contact table with columns id (a primary key), name (max length of 50),
     * If there are multiple *THEN* conditions or if there are multiple *results* then all the results should be of uniform datatype. i.e. *result_1* cannot be *integer* while *result_2* being 'character'.
     * *CASE* conditioning is applied with a select
 ### Data Types
+* There are many data types in postgres but the one’s majorly used are:
+    * TEXT
+        * Used to store names, address and other textual values 
+    * NUMERIC
+        * Used to store values like size,  length, weight and etc
+    * TEMPORAL
+        * Used to store values like delivery dates and timestamps
+    * BOOLEAN
+        * Used to store true or false values
+* *Examples:*
+    * Best way to store a birth date is using *date* type
+    * Best way to store a close ended value (Yes/No) is using *boolean* type
+    * Similarly, best way to store kms travelled is using *numeric* type
+* Understanding **TEXT** types:
+    * It’s important to note that in postgres there is no performance difference in terms of usage of any of the below types.\
+    1 ***TEXT***
+        * Field with variable length. Can vary between zero to N number of characters
+        * *Syntax*: TEXT
+        * This is primarily used for fields for which the field length is not known like: product review on amazon, users comment on youtube videos..etc
+        * From disk space perspective it is not good practice to not define the field length
+    2. ***VARCHAR***
+        * Similar to TEXT type but it contains a constraint in which a restriction on number of characters in a field can be imposed
+        * *Syntax*: VARCHAR(n)
+    3. ***CHAR***
+        * Type with fixed length
+        * *Syntax*: CHAR(n)
+        * If the number of characters entered are less than the value then spaces are suffixed
+        * Just entering CHAR without the constraint will be equated to CHAR(1)
+        * This is primarily used for fields like: ISBN of a book, barcode numbers..etc
+    * Example of a table with TEXT data types:\
+    `create table books (isbn char(13) not null, b_name varchar(50) not null, b_abstract text not null);`
+                
+
+
+
+
 ### Data Normalization
 * It is an activity performed to clean the data in order to obtain the data in an organized structure. It is essentially performed when the data at hand is reduandant,duplicate or inaccurate.
 * Data redundancy  = Applicant is a borrower, the record for him is present in both *applicant* and *borrower* tables.
