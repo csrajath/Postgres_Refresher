@@ -102,6 +102,79 @@ I believe in learning through excercies. Thus at last there is also a section fo
 1. Insert values into above created tables
 1. Insert values into from a file
 1. Retrive unique values only   
+#### Data Normalization
+1. Create the place table with zip_code as a five-character PRIMARY KEY, city as a text-type with up to 50 characters, and state as a two-character column. Add a column named place_id (a foreign key) to the borrower table that references the zip_code column of the place table.
+2. Create a client table for a client with employee number of 70-100 (num_employee column) and with columns id (a primary key), name (max length of 50),  
+Create a contact table with columns id (a primary key), name (max length of 50), and email (max length of 50). Alter the client table by adding a contact_id column as a foreign key.
+
+#### COUNTING
+* *count* keyword is used to obtain the number of rows for a specfic column or the table as a whole.
+* *count* is always accompanied by *select* keyword
+* Syntax:
+`select count(column_name) from table_name;`
+* Example:
+`select count(*) from countries;` # finding the total number of rows within *countries* table.
+* *distinct* keyword can be nested with count. Sometimes a column will have duplicate values. If one needs to find total number of unique values below syntax can be followed:
+`select count(distinct(column_name)) from table_name;` 
+#### CONDITIONAL QUERIES
+##### CASE
+* Conditional statements are always prefixed with *CASE* keyword and shall always close with *END* keyword.
+* *WHEN* and *THEN* keywords are used for performing conditional operations in postgresql.
+* The conditional block should always end with an *ELSE* keyword. If *ELSE* is not defined and all the conditions fail then the query will return *NULL*.  
+* Case Syantx:\
+`CASE `\
+`WHEN condition_1 THEN result_1`\
+`WHEN condition_2 THEN result_2`\
+`ELSE result_n` \
+`END`
+* *NOTE:*
+    * It not is required to place a *comma* after each *WHEN* statement.
+    * If there are multiple *THEN* conditions or if there are multiple *results* then all the results should be of uniform datatype. i.e. *result_1* cannot be *integer* while *result_2* being 'character'.
+    * *CASE* conditioning is applied with a select
+### Data Types
+### Data Normalization
+* It is an activity performed to clean the data in order to obtain the data in an organized structure. It is essentially performed when the data at hand is reduandant,duplicate or inaccurate.
+* Data redundancy  = Applicant is a borrower, the record for him is present in both *applicant* and *borrower* tables.
+* Data duplication and redundancy are similar concepts except the former occurs on flat files than on databases.
+#### *PRIMARY KEY*
+* Uniquely identify a record in the table
+* *Syntax*: `column_name column_type(constraint) primary key`
+* Can't accept null values
+* Multiple columns can be mentioned as primary key in a single line.
+    * Example: `primary key (colmn_name1, colmn_name2)`
+#### *FOREIGN KEY*
+* A field in the table that is primary key in another table.
+* *Syntax*:  `column_name column_type(constraint) references other_table_name(column_name_in_other_table)`
+* Can accept multiple null value.
+* *Alter* command is used to add a foreign key to an existing table
+    * `ALTER TABLE *child_table* ADD CONSTRAINT *constraint_name* FOREIGN KEY (c1) REFERENCES parent_table (p1);`
+##### *UPDATE* & *DELETE* operation on foreign key
+* PostgreSQL provides various options/contraints for the same.
+    * ON DELETE RESTRICT or ON UPDATE RESTRICT
+        * The rows in the parent table are not deleted/updated until all the rows in the child table are.
+    * ON DELETE CASCADE or ON UPDATE CASCADE
+        * All the referenced rows in the child table are deleted/updated on deletion of a single row in the parent table
+    * NO ACTION
+    *  If none of the above two are mentioned then by default *NO ACTION* is executed which throws an error based on operation.
+#### 1st Normal Form (*1NF*)
+* A table/relation in in 1NF only if the columns are atomic in nature i.e. each field contains only one entry.
+* Reasons why following 1NF is important:
+    * To avoid Insertion errors
+        * If a column is restricted for 50 characters only but does not follow atomicity adding multiple values in same field results in insertion error
+    * To avoid update erros
+        * If multiple values are allowed within a field then updating one of the values needs to be programatically handled outside database queries
+    * To avoid deletion errors
+        * Voids *Data Integrity* if multiple values are included in a field.
+            * Data Integrity is all about maintaining consitenciy of data throughout its lifecycle. If there are multiple values in a field, lets say = (chemistry, biology, physics), then changing one of the values voids data integrity of all the other values.
+#### 2nd Normal Form (*2NF*)
+* Should satisfy 1NF
+* It is important to maintain seperation of concerns, that is, if there are two definite entities then their needs to exist their own table for them.
+	* If Books and Publishers data is to be stored, then there needs to be two tables. One for books and other for publisher.
+	* Having the publisher data within books table will create problems like:
+		* Publishers with no textbook cannot be added to the table
+		* Batch attribute update becomes a manual process
+		* If there exists multiple books of same publishers, one cannot remove indivisual books of that specific publisher. It will end up removing all the books of that publisher.
+https://www.postgresqltutorial.com/postgresql-foreign-key/
 ### Postgres Interview Questions
 
 ### Project
