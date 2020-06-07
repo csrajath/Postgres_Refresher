@@ -24,6 +24,18 @@ I believe in learning through excercies. Thus at last there is also a section fo
     * Database Client
         * This is the application used to view database related items, like: schema, tables, columns and other configs.
         * Such Clients are: DataGrip, Postico, pgAdmin and one can use psql Shell too.
+* The database, table and schema names are by default less than 32 characters.
+* The database, table and schema names shall begin with underscore or alphabet only.
+* Schema names cannot begin with *pg_*
+* A database object constitutes of: database, tables and schemas.
+### Understanding Schema:
+* Collection of tables and functions
+    * *USES*:
+        * Providing separate environments
+            * If there are multiple developers, giving each of them their version of database would be a cost overhead, instead provide them a copy of the schema.
+        * Organising Database
+            * A company can have many business units. Instead of having a seperate database for each BU, create multiple schemas for each BU in the same database.
+Syntax: `create schema schema_name;`
 ### Understanding Commands and Operations
 #### Basic Commands
 * NOTE: ***PostgreSQL is not case sensitive***
@@ -151,23 +163,57 @@ Create a contact table with columns id (a primary key), name (max length of 50),
         * Field with variable length. Can vary between zero to N number of characters
         * *Syntax*: TEXT
         * This is primarily used for fields for which the field length is not known like: product review on amazon, users comment on youtube videos..etc
-        * From disk space perspective it is not good practice to not define the field length
+        * From disk space perspective it is not good practice to not define the field length.
     2. ***VARCHAR***
-        * Similar to TEXT type but it contains a constraint in which a restriction on number of characters in a field can be imposed
+        * Similar to TEXT type but it contains a constraint in which a restriction on number of characters in a field can be imposed.
         * *Syntax*: VARCHAR(n)
     3. ***CHAR***
         * Type with fixed length
         * *Syntax*: CHAR(n)
-        * If the number of characters entered are less than the value then spaces are suffixed
-        * Just entering CHAR without the constraint will be equated to CHAR(1)
+        * If the number of characters entered are less than the value then spaces are suffixed.
+        * Just entering CHAR without the constraint will be equated to CHAR(1).
         * This is primarily used for fields like: ISBN of a book, barcode numbers..etc
     * Example of a table with TEXT data types:\
     `create table books (isbn char(13) not null, b_name varchar(50) not null, b_abstract text not null);`
-                
-
-
-
-
+* Understanding ***NUMERIC*** types:
+    * NUMERIC itself is a field type
+    * *Syntax*: numeric(n,m)
+        * n = precision
+        * m = scale
+    * DISCRETE VALUES
+        * Field that contains non-floating or non-decimal values.
+        * INTEGER keyword is used to define the field.
+        * *Example*: Number of sales by an employee
+        * Other DISCRETE values:
+            * SMALLINT
+            * BIGINT
+            * SERIAL
+            * BIGSERIAL
+    * CONTINUOUS VALUES
+        * Fields that contain floating or decimal values.
+        * DECIMAL(n,m) keyword is used to define the field.
+        * *Example*: Salary of an employee
+        * Other DISCRETE values:
+            * REAL
+            * DOUBLE PRECISION
+* Example of a table with NUMERIC data type:
+`create table employee (id serial primary key,e_name varchar(255) not null,e_salary decimal(7,3) not null,e-tax real not null);`
+* Understanding ***TEMPORAL*** types:
+    * TIMESTAMP: stores both date and timestamp
+    * DATE: YYYY-MM-DD 
+    * TIME: HOUR-MIN-SEC
+Example of a table with TEMPORAL data type:
+`create table ts_example (e_dob date not null, e_arrival timestamp not null, e_lunch_time time not null);`
+* Understanding ***BOOLEAN*** types:
+* BOOLEAN  keyword can be used to declare a boolean field.
+* Primarily used for close ended fields like: whether or not an order is booked, whether a book is revised or not. [yes or no scenarios]
+* They are usually accompanied by DEFAULT keyword
+    Ex: ` in_stock bool default true;`
+* BOOLEAN carries three types of values:
+        * TRUE
+        * FALSE
+        * NULL
+               
 ### Data Normalization
 * It is an activity performed to clean the data in order to obtain the data in an organized structure. It is essentially performed when the data at hand is reduandant,duplicate or inaccurate.
 * Data redundancy  = Applicant is a borrower, the record for him is present in both *applicant* and *borrower* tables.
@@ -193,15 +239,15 @@ Create a contact table with columns id (a primary key), name (max length of 50),
     * NO ACTION
     *  If none of the above two are mentioned then by default *NO ACTION* is executed which throws an error based on operation.
 #### 1st Normal Form (*1NF*)
-* A table/relation in in 1NF only if the columns are atomic in nature i.e. each field contains only one entry.
+* A table/relation is in 1NF only if the columns are atomic in nature i.e. each field contains only one entry.
 * Reasons why following 1NF is important:
     * To avoid Insertion errors
         * If a column is restricted for 50 characters only but does not follow atomicity adding multiple values in same field results in insertion error
-    * To avoid update erros
+    * To avoid update errors
         * If multiple values are allowed within a field then updating one of the values needs to be programatically handled outside database queries
     * To avoid deletion errors
         * Voids *Data Integrity* if multiple values are included in a field.
-            * Data Integrity is all about maintaining consitenciy of data throughout its lifecycle. If there are multiple values in a field, lets say = (chemistry, biology, physics), then changing one of the values voids data integrity of all the other values.
+            * Data Integrity is all about maintaining consitenciy of data throughout its lifecycle. If there are multiple values in a field, lets say (chemistry, biology, physics), then changing one of the values voids data integrity of all the other values.
 #### 2nd Normal Form (*2NF*)
 * Should satisfy 1NF
 * It is important to maintain seperation of concerns, that is, if there are two definite entities then their needs to exist their own table for them.
@@ -211,10 +257,40 @@ Create a contact table with columns id (a primary key), name (max length of 50),
 		* Batch attribute update becomes a manual process
 		* If there exists multiple books of same publishers, one cannot remove indivisual books of that specific publisher. It will end up removing all the books of that publisher.
 https://www.postgresqltutorial.com/postgresql-foreign-key/
+### Access Control
+* There are two types of roles in postgreSQL:
+    * User Role
+    * Group Role (collection of User and System Accounts)
+* These operations helps in protecting the database from unauthorized access.
+*  By default, postgres engine ships with one user account named *postgres* with *superuser* role.
+    * A superuser account is used to perform database administration tasks.
+    * A super can perform delete, create and update operations on a database.
+* User Access
+    * Creating User/s:
+        * One of the first things to be done while creating a database is to create users and associating access for them.
+        * *Syntax*: `create user user_name;`
+        * Each users have access to their own databases/tables.
+    * Setting a User Password:
+        * Each user must always be created with a password.
+        * *Syantx*: `create user user_name with password 'Welcome8';`
+    * Changing a User Password:
+        * *Synatx*: `alter user user_name with password 'Welcome9'`;
+    * Provisioning User Access
+        * To grant privilege to other accounts, one needs to execute *grant* command in super user mode.
+        * The user who creates the database object owns it. Other accounts can access that object if they are granted the role to.
+        * *GRANT* keyword is used to grant access to accounts. One can grant access to select, delete, update..etc.
+        * *Syntax*: `GRANT p ON obj TO grantee;` [*p* - privilege]
+        * *example*: `GRANT INSERT ON account TO fin;`
+        * Limitations of access provisioning:
+	        *  While many of the roles can be granted by the account owner, certain commands need to be executed by the owner only.
+		    * Like: modifying table structure.
+		    * If an account really needs a owner role then the whole table/database ownership should be transferred to that account.
+    #### Hierarchical Access Control
 ### Postgres Interview Questions
 
 ### Project
 * After some useful learning, I decided to do a mini database building project. This is WiP.
+* create personal family financial database and host it on AWS
 ### Resources
 * Some handy resources to understanding PostgreSQL
      * Book - [Mastering PostgreSQL 12: Advanced Techniques to Build and Administer Scalable and Reliable PostgreSQL Database Applications, 3rd Edition](https://www.amazon.com/Mastering-PostgreSQL-techniques-administer-applications-ebook/dp/B0822GCCDT)
